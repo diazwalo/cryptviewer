@@ -3,8 +3,8 @@ package view;
 import java.awt.GraphicsEnvironment;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -13,12 +13,15 @@ public class MainView {
 	private HBox mainView;
 	private Scene sc;
 	
+	private NavigatorView navigatorView; 
+	
 	private static GraphicsEnvironment ge;
 	
 	public MainView(Stage primaryStage) {
 		ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		
 		this.mainView = new HBox();
+		this.navigatorView = new NavigatorView();
 		
 		this.createMainView(primaryStage);
 	}
@@ -31,13 +34,13 @@ public class MainView {
 		this.primaryStage.setMaxHeight(getWinHeight());
 		this.primaryStage.setMaxWidth(getWinWidth());
 
-		Label welcome = new Label("WELCOME !");
-		this.mainView.getChildren().add(welcome);
+		this.navigatorView.createViewNavigator();
+		Label rightSide = new Label("NOT IMPLEMENTED YET");
+
+		this.mainView.getChildren().addAll(this.navigatorView.getNavigatorView(), rightSide);
 		
 		this.sc = new Scene(this.mainView);
-		
 		this.primaryStage.setScene(this.sc);
-
 		this.primaryStage.show();
 	}
 	
