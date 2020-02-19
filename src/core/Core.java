@@ -14,5 +14,6 @@ public class Core extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		MainView mw = new MainView(primaryStage);
+		mw.createMainView();
 	}
 }

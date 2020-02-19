@@ -3,8 +3,6 @@ package view;
 import java.awt.GraphicsEnvironment;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -13,7 +11,8 @@ public class MainView {
 	private HBox mainView;
 	private Scene sc;
 	
-	private NavigatorView navigatorView; 
+	private DecryptView decryptView;
+	private CryptView cryptView;
 	
 	private static GraphicsEnvironment ge;
 	
@@ -21,23 +20,23 @@ public class MainView {
 		ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		
 		this.mainView = new HBox();
-		this.navigatorView = new NavigatorView();
+		this.decryptView = new DecryptView();
+		this.cryptView = new CryptView();
 		
-		this.createMainView(primaryStage);
+		this.primaryStage = primaryStage;
 	}
 
-	private void createMainView(Stage primaryStage) {
-		this.primaryStage = primaryStage;
+	public void createMainView() {
 		this.primaryStage.setTitle("CryptViewer");
-		this.primaryStage.setMaximized(true);
+		//this.primaryStage.setMaximized(true);
 		this.primaryStage.setResizable(false);
 		this.primaryStage.setMaxHeight(getWinHeight());
 		this.primaryStage.setMaxWidth(getWinWidth());
 
-		this.navigatorView.createViewNavigator();
-		Label rightSide = new Label("NOT IMPLEMENTED YET");
+		this.decryptView.createViewNavigator();
+		this.cryptView.createViewNavigator();
 
-		this.mainView.getChildren().addAll(this.navigatorView.getNavigatorView(), rightSide);
+		this.mainView.getChildren().addAll(this.cryptView.getCryptView(), this.decryptView.getDecryptView());
 		
 		this.sc = new Scene(this.mainView);
 		this.primaryStage.setScene(this.sc);
