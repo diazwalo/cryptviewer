@@ -28,7 +28,6 @@ public class MainView {
 
 	public void createMainView() {
 		this.primaryStage.setTitle("CryptViewer");
-		//this.primaryStage.setMaximized(true);
 		this.primaryStage.setResizable(false);
 		this.primaryStage.setMaxHeight(getWinHeight());
 		this.primaryStage.setMaxWidth(getWinWidth());
@@ -37,6 +36,7 @@ public class MainView {
 		this.cryptView.createViewNavigator();
 
 		this.mainView.getChildren().addAll(this.cryptView.getCryptView(), this.decryptView.getDecryptView());
+		
 		
 		this.sc = new Scene(this.mainView);
 		this.primaryStage.setScene(this.sc);
