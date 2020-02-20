@@ -41,4 +41,8 @@ public class DecryptView {
 	public boolean isOptionOpenFileChecked() {
 		return this.optionOpenFile.isSelected();
 	}
+	
+	public Button getSubmitDecryptButton() {
+		return this.submitDecryptButton;
+	}
 }

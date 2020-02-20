@@ -1,6 +1,9 @@
 package view;
 
+import java.awt.Desktop;
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
@@ -13,6 +16,7 @@ public class MainView {
 	
 	private DecryptView decryptView;
 	private CryptView cryptView;
+	private FileView fileView;
 	
 	private static GraphicsEnvironment ge;
 	
@@ -22,6 +26,7 @@ public class MainView {
 		this.mainView = new HBox();
 		this.decryptView = new DecryptView();
 		this.cryptView = new CryptView();
+		this.fileView = new FileView();
 		
 		this.primaryStage = primaryStage;
 	}
@@ -36,13 +41,28 @@ public class MainView {
 		this.cryptView.createViewNavigator();
 
 		this.mainView.getChildren().addAll(this.cryptView.getCryptView(), this.decryptView.getDecryptView());
-		
+		this.setOnActionMainView();
 		
 		this.sc = new Scene(this.mainView);
 		this.primaryStage.setScene(this.sc);
 		this.primaryStage.show();
 	}
-	
+
+	private void setOnActionMainView() {
+		this.decryptView.getSubmitDecryptButton().setOnAction(e -> {
+			this.fileView.createFileView(this.primaryStage);
+		});
+		this.decryptView.getSubmitDecryptButton().setOnAction(e -> {
+			File file = new File ("c:");
+			Desktop desktop = Desktop.getDesktop();
+			try {
+				desktop.open(file);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+	}
 
 	public static double getWinHeight() {
 		return ge.getMaximumWindowBounds().getHeight();

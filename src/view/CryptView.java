@@ -64,4 +64,8 @@ public class CryptView {
 	public String getCryptType() {
 		return this.cryptType.getPromptText();
 	}
+	
+	public Button getSumbmitCryptButton() {
+		return this.sumbmitCryptButton;
+	}
 }
