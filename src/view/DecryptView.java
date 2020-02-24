@@ -27,7 +27,7 @@ public class DecryptView {
 	}
 
 	private void createOptionOpenFile() {
-		this.optionOpenFile = new CheckBox(" : Ouvrir le fichier apres décryptage");
+		this.optionOpenFile = new CheckBox(" : Ouvrir le fichier apres decryptage");
 	}
 
 	private void createSubmitDecrypt() {

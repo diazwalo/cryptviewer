@@ -15,13 +15,11 @@ import javafx.stage.Stage;
 
 public class MainView {
 	private Stage primaryStage;
-	private Stage secondaryStage;
 	private HBox mainView;
 	private Scene sc;
 
 	private DecryptView decryptView;
 	private CryptView cryptView;
-	private FileView fileView;
 
 	private static GraphicsEnvironment ge;
 
@@ -31,7 +29,6 @@ public class MainView {
 		this.mainView = new HBox();
 		this.decryptView = new DecryptView();
 		this.cryptView = new CryptView();
-		this.fileView = new FileView();
 
 		this.primaryStage = primaryStage;
 	}
@@ -70,6 +67,8 @@ public class MainView {
 			 * TRAITEMENT DU FICHIER fileToDecrypt
 			 */
 			
+			System.out.println(fileToDecrypt == null);
+			
 			this.openFile(fileToDecrypt);
 		});
 	}
@@ -89,7 +88,6 @@ public class MainView {
 		fileChooser.setTitle("Open Resource File");
 
 		File fileChoosen = fileChooser.showOpenDialog(primaryStage);
-		System.out.println(fileChoosen.getName());
 
 		return fileChoosen;
 	}
@@ -105,10 +103,12 @@ public class MainView {
 	}
 	
 	public void openFile(File fileToOpen) {
-		try {
-			Desktop.getDesktop().open(fileToOpen);
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		if(fileToOpen != null) {
+			try {
+				Desktop.getDesktop().open(fileToOpen);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 }
