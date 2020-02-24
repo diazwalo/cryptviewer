@@ -55,9 +55,13 @@ public class MainView {
 
 	private void setOnActionMainView() {
 		this.decryptView.getSubmitDecryptButton().setOnAction(e -> {
-			File fileToDecrypt = this.getFileByOpenDialog(this.getExtensionAccepted());
-			this.secondaryStage = this.fileView.createFileView(this.primaryStage);
-			this.fileView.createSceneSecondaryScene(fileToDecrypt);
+			File fileToCrypt = this.getFileByOpenDialog(this.getExtensionAccepted());
+			
+			/**
+			 * TRAITEMENT DU FICHIER fileToCrypt
+			 */
+			
+			this.openFile(fileToCrypt);
 		});
 		this.cryptView.getSumbmitCryptButton().setOnAction(e -> {
 			File fileToDecrypt = this.getFileByOpenDialog(this.getExtensionAccepted());
@@ -65,12 +69,8 @@ public class MainView {
 			/**
 			 * TRAITEMENT DU FICHIER fileToDecrypt
 			 */
-
-			try {
-				Desktop.getDesktop().open(fileToDecrypt);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			
+			this.openFile(fileToDecrypt);
 		});
 	}
 
@@ -102,5 +102,13 @@ public class MainView {
 		extensionAccepted.add(new FileChooser.ExtensionFilter("TXT", "*.txt"));
 
 		return extensionAccepted;
+	}
+	
+	public void openFile(File fileToOpen) {
+		try {
+			Desktop.getDesktop().open(fileToOpen);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 }
