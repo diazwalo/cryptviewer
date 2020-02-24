@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -17,6 +20,8 @@ public class MainView {
 	private Stage primaryStage;
 	private HBox mainView;
 	private Scene sc;
+	private Separator separateur;
+
 
 	private DecryptView decryptView;
 	private CryptView cryptView;
@@ -31,6 +36,8 @@ public class MainView {
 		this.cryptView = new CryptView();
 
 		this.primaryStage = primaryStage;
+		this.separateur = new Separator(Orientation.VERTICAL);
+
 	}
 
 	public void createMainView() {
@@ -42,8 +49,10 @@ public class MainView {
 		this.decryptView.createViewNavigator();
 		this.cryptView.createViewNavigator();
 
-		this.mainView.getChildren().addAll(this.cryptView.getCryptView(), this.decryptView.getDecryptView());
+		this.mainView.getChildren().addAll(this.cryptView.getCryptView(),this.separateur, this.decryptView.getDecryptView());
 		this.setOnActionMainView();
+	    this.mainView.setPadding(new Insets(10, 0, 10, 0));
+
 
 		this.sc = new Scene(this.mainView);
 		this.primaryStage.setScene(this.sc);
