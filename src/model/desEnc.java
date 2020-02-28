@@ -19,6 +19,8 @@ import javax.crypto.SecretKey;
 import java.util.Base64;
 import javax.crypto.spec.SecretKeySpec;
 
+//OSEF DE CETTE CLASSE ELLE EST LA AU CAS OU
+
 
 public class desEnc {
   public static void main(String[] argv) throws Exception {

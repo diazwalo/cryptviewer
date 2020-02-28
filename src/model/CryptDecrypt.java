@@ -46,6 +46,7 @@ public class CryptDecrypt {
 		} catch (IllegalBlockSizeException e) {
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
+			System.out.println("ce fichier n'est pas crypté");
 			e.printStackTrace();
 		}
 	}
@@ -76,41 +77,49 @@ public class CryptDecrypt {
 	}
 
 	private static Key createKey(String cle, String algorithme) {
-		try{
-			Key cleSecret = new SecretKeySpec(cle.getBytes(), algorithme);
-			return cleSecret;
-		}catch (Exception e) {
-			e.printStackTrace();
+		if(verifyKeyLength(algorithme, cle)) {
+			try{
+				Key cleSecret = new SecretKeySpec(cle.getBytes(), algorithme);
+				return cleSecret;
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+
 		return null;
 	}
 
 	private static boolean verifyKeyLength(String algorithm, String key) {
+		String msg = "longueur de la clé non valide \n";
 		switch (algorithm) {
 		case "AES":
 			if(key.getBytes().length==16) return true;
+			else System.out.println(msg+"Entrez une clé de 16 octets");
+
 			break;
 
 		case "DES":
+			if(key.getBytes().length==8) return true;
+			else System.out.println(msg+"Entrez une clé de 8 octets");
+
 			break;
-			
+
 		case "DESede" :
+			if(key.getBytes().length==24) return true;
+			else System.out.println(msg+"Entrez une clé de 24 octets");
 			break;
-			
-			default :
-				System.out.println();
+
+		default :
+			System.out.println("type d'algorithm non valide");
 		}
-		
-		if(algorithm.equals("AES") && key.getBytes().length==16) return true;
-		if(algorithm.equals("AES") && key.getBytes().length==16) return true;
-		else return false;
+		return false;
 	}
 
 	public static void main(String[] args) {
 
 
-		Key sc = createKey("aaaaaaaa", "DES");
-		//decrypt(sc, "DES", new File("./res/document.txt"), true, null);
+		Key sc = createKey("aaaaaaaaaaaaaaaaaaaaaaaa", "DESede");
+		decrypt(sc, "DESede", new File("./res/document.txt"), true, null);
 	}
 
 }
