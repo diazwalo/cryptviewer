@@ -23,7 +23,6 @@ import javax.crypto.spec.SecretKeySpec;
 public class desEnc {
   public static void main(String[] argv) throws Exception {
   //AES: clé de 16 octets, 8 pour DES 24 pour 3DES (DESede)
-
 	String mykey=argv[0];
         SecretKey key = new SecretKeySpec(mykey.getBytes(), "DESede"); 
 	System.out.println(key);

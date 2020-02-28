@@ -20,7 +20,6 @@ import java.util.Base64;
 import javax.crypto.spec.SecretKeySpec;
 
 
-
 public class desDec {
   public static void main(String[] argv) throws Exception {
 //AES: clé de 16 octets, 8 pour DES 24 pour 3DES (DESede)
