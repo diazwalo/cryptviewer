@@ -7,18 +7,20 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 public class CryptDecrypt {
-
+	public static Key myKey;
+	
+	public CryptDecrypt(String clef) {
+		CryptDecrypt.myKey = createKey(clef, "DESede");
+	}
+	
 	private static void traitement(int mode, Key cle,String algorithme,String transformation,File fichierEntree,File fichierSortie){
 		try {
 			Cipher cipher;
@@ -51,7 +53,7 @@ public class CryptDecrypt {
 		}
 	}
 
-	private static void encrypt(Key key, String algorithm, File LinkInputFile, boolean overwrite, File newLinkInputFileIfNotOverwrite) {
+	public static void encrypt(Key key, String algorithm, File LinkInputFile, boolean overwrite, File newLinkInputFileIfNotOverwrite) {
 		if(overwrite) {
 			traitement(Cipher.ENCRYPT_MODE, key,algorithm,algorithm, LinkInputFile, LinkInputFile);
 		}else {
@@ -63,7 +65,7 @@ public class CryptDecrypt {
 		}
 	}
 
-	private static void decrypt(Key key, String algorithm, File LinkInputFile, boolean overwrite, File newLinkInputFileIfNotOverwrite) {
+	public static void decrypt(Key key, String algorithm, File LinkInputFile, boolean overwrite, File newLinkInputFileIfNotOverwrite) {
 		if(overwrite) {
 			traitement(Cipher.DECRYPT_MODE, key,algorithm,algorithm, LinkInputFile, LinkInputFile);
 		}else {
@@ -115,11 +117,11 @@ public class CryptDecrypt {
 		return false;
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 
 
 		Key sc = createKey("aaaaaaaaaaaaaaaaaaaaaaaa", "DESede");
 		decrypt(sc, "DESede", new File("./res/document.txt"), true, null);
-	}
+	}*/
 
 }

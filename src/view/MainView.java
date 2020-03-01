@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import model.CryptDecrypt;
 
 public class MainView {
 	private Stage primaryStage;
@@ -27,7 +28,7 @@ public class MainView {
 	private CryptView cryptView;
 
 	private static GraphicsEnvironment ge;
-
+	
 	public MainView(Stage primaryStage) {
 		ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
@@ -66,6 +67,8 @@ public class MainView {
 			/**
 			 * TRAITEMENT DU FICHIER fileToCrypt
 			 */
+			//CryptDecrypt.encrypt(CryptDecrypt.myKey, "DESede", fileToCrypt, false, fileToCrypt.getParentFile());
+			CryptDecrypt.encrypt(CryptDecrypt.myKey, "DESede", fileToCrypt, true, null);
 			
 			this.openFile(fileToCrypt);
 		});
@@ -75,10 +78,10 @@ public class MainView {
 			/**
 			 * TRAITEMENT DU FICHIER fileToDecrypt
 			 */
+			//CryptDecrypt.decrypt(CryptDecrypt.myKey, "DESede", fileToDecrypt, false, fileToDecrypt.getParentFile());
+			CryptDecrypt.decrypt(CryptDecrypt.myKey, "DESede", fileToDecrypt, true, null);
 			
-			System.out.println(fileToDecrypt == null);
-			
-			this.openFile(fileToDecrypt);
+			if(this.decryptView.isOptionOpenFileChecked()) this.openFile(fileToDecrypt);
 		});
 	}
 
