@@ -13,8 +13,7 @@ public class CryptView {
 	private VBox cryptView;
 	private Button sumbmitCryptButton;
 	private ComboBox<String> cryptType;
-	private CheckBox cryptOption1;
-	private CheckBox cryptOption2;
+	private CheckBox cryptOptionOveride;
 
 	public CryptView() {
 		this.cryptView = new VBox();
@@ -31,12 +30,11 @@ public class CryptView {
 		createCryptType();
 		createCryptOption();
 
-		this.cryptView.getChildren().addAll(this.sumbmitCryptButton, this.cryptType, this.cryptOption1, this.cryptOption2);
+		this.cryptView.getChildren().addAll(this.sumbmitCryptButton, this.cryptType, this.cryptOptionOveride);
 	}
 
 	private void createCryptOption() {
-		this.cryptOption1 = new CheckBox(" : Option 1");
-		this.cryptOption2 = new CheckBox(" : Option 2");
+		this.cryptOptionOveride = new CheckBox(" : Ecraser le fichier");
 	}
 
 	private void createSubmitCrypt() {
@@ -44,21 +42,21 @@ public class CryptView {
 	}
 
 	private void createCryptType() {
-		ObservableList<String> typesItems =FXCollections.observableArrayList ("RSA", "SMIC", "ChOMaGe");
+		ObservableList<String> typesItems =FXCollections.observableArrayList ("AES", "DES", "DESede");
 		this.cryptType = new ComboBox<String>(typesItems);
-		this.cryptType.setPromptText("RSA");
+		this.cryptType.setPromptText(typesItems.get(0));
 	}
 
 	public VBox getCryptView() {
 		return this.cryptView;
 	}
 
-	public boolean isOption1Checked() {
-		return this.cryptOption1.isSelected();
+	public String getTypeCrypt() {
+		return this.cryptType.getPromptText();
 	}
-
-	public boolean isOption2Checked() {
-		return this.cryptOption2.isSelected();
+	
+	public boolean isOptionOverideChecked() {
+		return this.cryptOptionOveride.isSelected();
 	}
 
 	public String getCryptType() {

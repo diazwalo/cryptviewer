@@ -62,26 +62,16 @@ public class MainView {
 
 	private void setOnActionMainView() {
 		this.decryptView.getSubmitDecryptButton().setOnAction(e -> {
-			File fileToCrypt = this.getFileByOpenDialog(this.getExtensionAccepted());
+			File fileCrypted = this.getFileByOpenDialog(this.getExtensionAccepted());
 			
-			/**
-			 * TRAITEMENT DU FICHIER fileToCrypt
-			 */
-			//CryptDecrypt.encrypt(CryptDecrypt.myKey, "DESede", fileToCrypt, false, fileToCrypt.getParentFile());
-			CryptDecrypt.encrypt(CryptDecrypt.myKey, "DESede", fileToCrypt, true, null);
+			CryptDecrypt.decrypt(CryptDecrypt.myKey, "DESede", fileCrypted, true, fileCrypted.getParentFile());
 			
-			this.openFile(fileToCrypt);
+			if(this.decryptView.isOptionOpenFileChecked()) this.openFile(fileCrypted);
 		});
 		this.cryptView.getSumbmitCryptButton().setOnAction(e -> {
-			File fileToDecrypt = this.getFileByOpenDialog(this.getExtensionAccepted());
+			File fileDecrypted = this.getFileByOpenDialog(this.getExtensionAccepted());
 
-			/**
-			 * TRAITEMENT DU FICHIER fileToDecrypt
-			 */
-			//CryptDecrypt.decrypt(CryptDecrypt.myKey, "DESede", fileToDecrypt, false, fileToDecrypt.getParentFile());
-			CryptDecrypt.decrypt(CryptDecrypt.myKey, "DESede", fileToDecrypt, true, null);
-			
-			if(this.decryptView.isOptionOpenFileChecked()) this.openFile(fileToDecrypt);
+			CryptDecrypt.encrypt(CryptDecrypt.myKey, "DESede", fileDecrypted, true, fileDecrypted.getParentFile());
 		});
 	}
 
