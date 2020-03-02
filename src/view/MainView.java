@@ -61,17 +61,40 @@ public class MainView {
 	}
 
 	private void setOnActionMainView() {
-		this.decryptView.getSubmitDecryptButton().setOnAction(e -> {
-			File fileCrypted = this.getFileByOpenDialog(this.getExtensionAccepted());
-			
-			CryptDecrypt.decrypt(CryptDecrypt.myKey, "DESede", fileCrypted, true, fileCrypted.getParentFile());
-			
-			if(this.decryptView.isOptionOpenFileChecked()) this.openFile(fileCrypted);
-		});
+		//Set Action sur le button "Crypter"
 		this.cryptView.getSumbmitCryptButton().setOnAction(e -> {
 			File fileDecrypted = this.getFileByOpenDialog(this.getExtensionAccepted());
 
-			CryptDecrypt.encrypt(CryptDecrypt.myKey, "DESede", fileDecrypted, true, fileDecrypted.getParentFile());
+			if(fileDecrypted != null) {
+				File fileTempo = null;
+				if(! this.cryptView.isOptionOverideChecked()) {
+					String nameOfFile = fileDecrypted.getName();
+					String pathOfFile = fileDecrypted.getAbsolutePath();
+					
+					fileTempo = new File(pathOfFile.substring(0, pathOfFile.lastIndexOf(".")) + "_crypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
+				}
+				CryptDecrypt.encrypt(CryptDecrypt.myKey, this.cryptView.getTypeCrypt(), fileDecrypted, this.cryptView.isOptionOverideChecked(), fileTempo);
+			}
+		});
+		
+		//Set Action sur le button "Decrypter"
+		this.decryptView.getSubmitDecryptButton().setOnAction(e -> {
+			File fileCrypted = this.getFileByOpenDialog(this.getExtensionAccepted());
+			
+			if(fileCrypted != null) {
+				File fileTempo = null;
+				if(! this.decryptView.isOptionOverideChecked()) {
+					String nameOfFile = fileCrypted.getName();
+					String pathOfFile = fileCrypted.getAbsolutePath();
+					
+					fileTempo = new File(pathOfFile.substring(0, pathOfFile.lastIndexOf(".")) + "_decrypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
+				}
+				CryptDecrypt.decrypt(CryptDecrypt.myKey, this.decryptView.getDecryptType(), fileCrypted, this.decryptView.isOptionOverideChecked(), fileTempo);
+			}
+			
+			if(this.decryptView.isOptionOpenFileChecked()) {
+				this.openFile(fileCrypted);
+			}
 		});
 	}
 

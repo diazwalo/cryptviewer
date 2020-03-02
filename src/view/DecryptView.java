@@ -13,6 +13,7 @@ public class DecryptView {
 	private Button submitDecryptButton;
 	private CheckBox optionOpenFile;
 	private ComboBox<String> decryptType;
+	private CheckBox decryptOptionOveride;
 	
 	public DecryptView() {
 		this.decryptView = new VBox();
@@ -27,8 +28,13 @@ public class DecryptView {
 		this.createSubmitDecrypt();
 		this.createOptionOpenFile();
 		this.createDecryptType();
+		this.createDecryptOptionOveride();
 		
-		this.decryptView.getChildren().addAll(this.submitDecryptButton, this.decryptType, this.optionOpenFile);
+		this.decryptView.getChildren().addAll(this.submitDecryptButton, this.decryptType, this.decryptOptionOveride, this.optionOpenFile);
+	}
+	
+	private void createDecryptOptionOveride() {
+		this.decryptOptionOveride = new CheckBox(" : Ecraser le fichier");
 	}
 	
 	private void createDecryptType() {
@@ -49,15 +55,19 @@ public class DecryptView {
 		return this.decryptView;
 	}
 	
-	public String getTypeDecrypt() {
-		return this.decryptType.getPromptText();
+	public Button getSubmitDecryptButton() {
+		return this.submitDecryptButton;
+	}
+
+	public String getDecryptType() {
+		return this.decryptType.getValue();
 	}
 	
 	public boolean isOptionOpenFileChecked() {
 		return this.optionOpenFile.isSelected();
 	}
 	
-	public Button getSubmitDecryptButton() {
-		return this.submitDecryptButton;
+	public boolean isOptionOverideChecked() {
+		return this.decryptOptionOveride.isSelected();
 	}
 }

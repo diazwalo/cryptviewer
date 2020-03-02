@@ -28,12 +28,12 @@ public class CryptView {
 	protected void createViewNavigator() {
 		createSubmitCrypt();
 		createCryptType();
-		createCryptOption();
+		createCryptOptionOveride();
 
 		this.cryptView.getChildren().addAll(this.sumbmitCryptButton, this.cryptType, this.cryptOptionOveride);
 	}
 
-	private void createCryptOption() {
+	private void createCryptOptionOveride() {
 		this.cryptOptionOveride = new CheckBox(" : Ecraser le fichier");
 	}
 
@@ -51,19 +51,15 @@ public class CryptView {
 		return this.cryptView;
 	}
 
+	public Button getSumbmitCryptButton() {
+		return this.sumbmitCryptButton;
+	}
+
 	public String getTypeCrypt() {
-		return this.cryptType.getPromptText();
+		return this.cryptType.getValue();
 	}
 	
 	public boolean isOptionOverideChecked() {
 		return this.cryptOptionOveride.isSelected();
-	}
-
-	public String getCryptType() {
-		return this.cryptType.getPromptText();
-	}
-	
-	public Button getSumbmitCryptButton() {
-		return this.sumbmitCryptButton;
 	}
 }
