@@ -19,6 +19,7 @@ import model.CryptDecrypt;
 
 public class MainView {
 	private Stage primaryStage;
+	private Stage secondaryStage;
 	private HBox mainView;
 	private Scene sc;
 	private Separator separateur;
@@ -26,6 +27,7 @@ public class MainView {
 
 	private DecryptView decryptView;
 	private CryptView cryptView;
+	private EnterKeyView enterKeyView;
 
 	private static GraphicsEnvironment ge;
 	
@@ -35,7 +37,8 @@ public class MainView {
 		this.mainView = new HBox();
 		this.decryptView = new DecryptView();
 		this.cryptView = new CryptView();
-
+		this.enterKeyView = new EnterKeyView();
+		
 		this.primaryStage = primaryStage;
 		this.separateur = new Separator(Orientation.VERTICAL);
 
@@ -66,6 +69,18 @@ public class MainView {
 			File fileDecrypted = this.getFileByOpenDialog(this.getExtensionAccepted());
 
 			if(fileDecrypted != null) {
+				int lengthKey = 8;
+				if(this.cryptView.getTypeCrypt().equals("AES")) {
+					lengthKey = 16;
+				}else if(this.cryptView.getTypeCrypt().equals("DESede")) {
+					lengthKey = 24;
+				}
+				this.secondaryStage = this.enterKeyView.createFileView(primaryStage, lengthKey);
+				this.enterKeyView.getValidateButton().setOnAction(eButton -> {
+					CryptDecrypt.createKey(this.enterKeyView.getKeyInput(), this.cryptView.getTypeCrypt());
+					this.secondaryStage.hide();
+				});
+				
 				File fileTempo = null;
 				if(! this.cryptView.isOptionOverideChecked()) {
 					String nameOfFile = fileDecrypted.getName();

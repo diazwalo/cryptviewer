@@ -56,6 +56,7 @@ public class CryptView {
 	}
 
 	public String getTypeCrypt() {
+		System.out.println(this.cryptType.getPromptText());
 		return this.cryptType.getValue();
 	}
 	
