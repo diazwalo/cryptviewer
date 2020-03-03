@@ -73,7 +73,6 @@ public class MainView {
 					String nameOfFile = fileDecrypted.getName();
 					String pathOfFile = fileDecrypted.getAbsolutePath();
 					
-					//fileTempo = new File(pathOfFile.substring(0, pathOfFile.lastIndexOf(".")) + "_decrypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
 					fileTempo = new File(System.getProperty("user.home")+"/Chiffre/"+fileDecrypted.getName().substring(0, fileDecrypted.getName().lastIndexOf("."))+ "_crypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
 				}
 				CryptDecrypt.encrypt(CryptDecrypt.myKey, this.cryptView.getTypeCrypt(), fileDecrypted, this.cryptView.isOptionOverideChecked(), fileTempo);
