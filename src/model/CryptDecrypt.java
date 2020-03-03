@@ -82,7 +82,7 @@ public class CryptDecrypt {
 		return msgError;
 	}
 
-	private static Key createKey(String cle, String algorithme) {
+	public static Key createKey(String cle, String algorithme) {
 		if(verifyKeyLength(algorithme, cle)) {
 			try{
 				Key cleSecret = new SecretKeySpec(cle.getBytes(), algorithme);
