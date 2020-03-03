@@ -21,7 +21,7 @@ public class CryptDecrypt {
 		CryptDecrypt.myKey = createKey(clef, "DESede");
 	}
 	
-	private static void traitement(int mode, Key cle,String algorithme,String transformation,File fichierEntree,File fichierSortie){
+	private static String traitement(int mode, Key cle,String algorithme,String transformation,File fichierEntree,File fichierSortie){
 		try {
 			Cipher cipher;
 			cipher = Cipher.getInstance(transformation);
@@ -38,44 +38,48 @@ public class CryptDecrypt {
 			inputStream.close();
 			outputStream.close();
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			return "Erreur lors du traitement";
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			return "Ce fichier est déjà chiffré ou déjà déchiffré";
 		} catch (NoSuchPaddingException e) {
-			e.printStackTrace();
+			return "Erreur lors du traitement";
 		} catch (InvalidKeyException e) {
-			e.printStackTrace();
+			return "Erreur lors du traitement";
 		} catch (IllegalBlockSizeException e) {
-			e.printStackTrace();
+			return "Erreur lors du traitement";
 		} catch (BadPaddingException e) {
-			System.out.println("ce fichier n'est pas crypté");
-			e.printStackTrace();
+			return "Ce fichier n'est pas crypté";
 		}
+		return "";
 	}
 
-	public static void encrypt(Key key, String algorithm, File LinkInputFile, boolean overwrite, File newLinkInputFileIfNotOverwrite) {
+	public static String encrypt(Key key, String algorithm, File LinkInputFile, boolean overwrite, File newLinkInputFileIfNotOverwrite) {
+		String msgError="";
 		if(overwrite) {
-			traitement(Cipher.ENCRYPT_MODE, key,algorithm,algorithm, LinkInputFile, LinkInputFile);
+			msgError=traitement(Cipher.ENCRYPT_MODE, key,algorithm,algorithm, LinkInputFile, LinkInputFile);
 		}else {
 			try {
-				traitement(Cipher.ENCRYPT_MODE, key,algorithm,algorithm, LinkInputFile, newLinkInputFileIfNotOverwrite);
+				msgError=traitement(Cipher.ENCRYPT_MODE, key,algorithm,algorithm, LinkInputFile, newLinkInputFileIfNotOverwrite);
 			}catch (NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
+		return msgError;
 	}
 
-	public static void decrypt(Key key, String algorithm, File LinkInputFile, boolean overwrite, File newLinkInputFileIfNotOverwrite) {
+	public static String decrypt(Key key, String algorithm, File LinkInputFile, boolean overwrite, File newLinkInputFileIfNotOverwrite) {
+		String msgError="";
 		if(overwrite) {
-			traitement(Cipher.DECRYPT_MODE, key,algorithm,algorithm, LinkInputFile, LinkInputFile);
+			msgError=traitement(Cipher.DECRYPT_MODE, key,algorithm,algorithm, LinkInputFile, LinkInputFile);
 		}else {
 			try {
-				traitement(Cipher.DECRYPT_MODE, key,algorithm,algorithm, LinkInputFile, newLinkInputFileIfNotOverwrite);
+				msgError=traitement(Cipher.DECRYPT_MODE, key,algorithm,algorithm, LinkInputFile, newLinkInputFileIfNotOverwrite);
 
 			}catch (NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
+		return msgError;
 	}
 
 	public static Key createKey(String cle, String algorithme) {
