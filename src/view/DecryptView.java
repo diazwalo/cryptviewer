@@ -45,6 +45,7 @@ public class DecryptView {
 
 	private void createOptionOpenFile() {
 		this.optionOpenFile = new CheckBox(" : Ouvrir le fichier");
+		this.optionOpenFile.setDisable(true);
 	}
 
 	private void createSubmitDecrypt() {
@@ -60,7 +61,11 @@ public class DecryptView {
 	}
 
 	public String getDecryptType() {
-		return this.decryptType.getValue();
+		if(this.decryptType.getValue() == null) {
+			return this.decryptType.getItems().get(0);
+		}else {
+			return this.decryptType.getValue();
+		}
 	}
 	
 	public boolean isOptionOpenFileChecked() {

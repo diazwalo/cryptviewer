@@ -1,9 +1,8 @@
 package view;
 
-import java.io.File;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -15,6 +14,8 @@ public class EnterKeyView {
 	private VBox fileView;
 	private TextField keyInput;
 	private Button validate;
+	private Label message;
+	
 	private int lengthKey;
 	
 	public EnterKeyView() {
@@ -27,32 +28,22 @@ public class EnterKeyView {
 		this.secondaryStage.setScene(this.createSceneSecondaryScene(lengthKey));
 		this.secondaryStage.centerOnScreen();
 		this.secondaryStage.initModality(Modality.WINDOW_MODAL);
-		this.secondaryStage.initOwner(primaryStage);
+		this.secondaryStage.initOwner(primaryStage); 	
 		this.secondaryStage.show();
 
 		return this.secondaryStage;
 	}
 
 	public Scene createSceneSecondaryScene(int lengthKey) {
+		this.lengthKey = lengthKey;
+		
 		this.fileView = new VBox();
+		this.message = new Label("Entrez une clef de longueur " + this.lengthKey + " : ");
 		
 		keyInput= new TextField();
 		validate = new Button("OK");
 		
-		validate.setDisable(true);
-		
-		this.keyInput.setOnAction(e -> {
-			System.out.println(this.keyInput.getText().length());
-			if(this.keyInput.getText().length() == this.lengthKey) {
-				System.out.println(this.keyInput.getText().length());
-				this.validate.setDisable(false);
-			}else {
-				this.validate.setDisable(true);
-			}
-		});
-	
-		
-		this.fileView.getChildren().addAll(this.keyInput, this.validate);
+		this.fileView.getChildren().addAll(this.message, this.keyInput, this.validate);
 		
 		this.secondaryScene = new Scene(this.fileView);
 		return this.secondaryScene;
@@ -67,7 +58,17 @@ public class EnterKeyView {
 	}
 	
 	public String getKeyInput() {
-		System.out.println(this.keyInput.getSelectedText());
-		return this.keyInput.getSelectedText();
+		return this.keyInput.getText();
+	}
+	
+	public boolean isLengthKeyInputEnougth() {
+		if(this.keyInput.getText().length() == this.lengthKey) {
+			return true;
+		}else {
+			System.out.println("GET :" + this.keyInput.getText().length() +" EXPECTED : " + this.lengthKey);
+			
+			this.keyInput.clear();
+			return false;
+		}
 	}
 }

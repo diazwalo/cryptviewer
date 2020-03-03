@@ -30,17 +30,17 @@ public class MainView {
 	private EnterKeyView enterKeyView;
 
 	private static GraphicsEnvironment ge;
-	
+
 	public MainView(Stage primaryStage) {
 		this.createFolderCryptIfNotExist();
-		
+
 		ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
 		this.mainView = new HBox();
 		this.decryptView = new DecryptView();
 		this.cryptView = new CryptView();
 		this.enterKeyView = new EnterKeyView();
-		
+
 		this.primaryStage = primaryStage;
 		this.separateur = new Separator(Orientation.VERTICAL);
 
@@ -57,7 +57,7 @@ public class MainView {
 
 		this.mainView.getChildren().addAll(this.cryptView.getCryptView(),this.separateur, this.decryptView.getDecryptView());
 		this.setOnActionMainView();
-	    this.mainView.setPadding(new Insets(10, 0, 10, 0));
+		this.mainView.setPadding(new Insets(10, 0, 10, 0));
 
 
 		this.sc = new Scene(this.mainView);
@@ -71,7 +71,6 @@ public class MainView {
 			File fileDecrypted = this.getFileByOpenDialog(this.getExtensionAccepted());
 
 			if(fileDecrypted != null) {
-				this.primaryStage.hide();
 				int lengthKey = 8;
 				if(this.cryptView.getTypeCrypt().equals("AES")) {
 					lengthKey = 16;
@@ -79,42 +78,63 @@ public class MainView {
 					lengthKey = 24;
 				}
 				this.secondaryStage = this.enterKeyView.createFileView(primaryStage, lengthKey);
+				
 				this.enterKeyView.getValidateButton().setOnAction(eButton -> {
-					CryptDecrypt.createKey(this.enterKeyView.getKeyInput(), this.cryptView.getTypeCrypt());
-					this.secondaryStage.hide();
-					
-					System.out.println("attention jui deja la");
-					
-					File fileTempo = null;
-					if(! this.cryptView.isOptionOverideChecked()) {
-						String nameOfFile = fileDecrypted.getName();
-						String pathOfFile = fileDecrypted.getAbsolutePath();
-						
-						//fileTempo = new File(pathOfFile.substring(0, pathOfFile.lastIndexOf(".")) + "_decrypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
-						fileTempo = new File(System.getProperty("user.home")+"/Chiffre/"+fileDecrypted.getName().substring(0, fileDecrypted.getName().lastIndexOf("."))+ "_crypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
+					if(this.enterKeyView.isLengthKeyInputEnougth()) {
+
+						CryptDecrypt.myKey = CryptDecrypt.createKey(this.enterKeyView.getKeyInput(), this.cryptView.getTypeCrypt());
+						this.secondaryStage.hide();
+						this.primaryStage.show();
+
+						File fileTempo = null;
+						if(! this.cryptView.isOptionOverideChecked()) {
+							String nameOfFile = fileDecrypted.getName();
+							String pathOfFile = fileDecrypted.getAbsolutePath();
+
+							//fileTempo = new File(pathOfFile.substring(0, pathOfFile.lastIndexOf(".")) + "_decrypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
+							fileTempo = new File(System.getProperty("user.home")+"/Chiffre/"+fileDecrypted.getName().substring(0, fileDecrypted.getName().lastIndexOf("."))+ "_crypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
+						}
+						CryptDecrypt.encrypt(CryptDecrypt.myKey, this.cryptView.getTypeCrypt(), fileDecrypted, this.cryptView.isOptionOverideChecked(), fileTempo);
 					}
-					CryptDecrypt.encrypt(CryptDecrypt.myKey, this.cryptView.getTypeCrypt(), fileDecrypted, this.cryptView.isOptionOverideChecked(), fileTempo);
 				});
 			}
 		});
-		
+
 		//Set Action sur le button "Decrypter"
 		this.decryptView.getSubmitDecryptButton().setOnAction(e -> {
 			File fileCrypted = this.getFileByOpenDialog(this.getExtensionAccepted());
-			
+
 			if(fileCrypted != null) {
-				File fileTempo = null;
-				if(! this.decryptView.isOptionOverideChecked()) {
-					String nameOfFile = fileCrypted.getName();
-					String pathOfFile = fileCrypted.getAbsolutePath();
-					
-					fileTempo = new File(pathOfFile.substring(0, pathOfFile.lastIndexOf(".")) + "_decrypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
+
+				int lengthKey = 8;
+				if(this.decryptView.getDecryptType().equals("AES")) {
+					lengthKey = 16;
+				}else if(this.decryptView.getDecryptType().equals("DESede")) {
+					lengthKey = 24;
 				}
-				CryptDecrypt.decrypt(CryptDecrypt.myKey, this.decryptView.getDecryptType(), fileCrypted, this.decryptView.isOptionOverideChecked(), fileTempo);
-			}
-			
-			if(this.decryptView.isOptionOpenFileChecked()) {
-				this.openFile(fileCrypted);
+				this.secondaryStage = this.enterKeyView.createFileView(primaryStage, lengthKey);
+
+				this.enterKeyView.getValidateButton().setOnAction(eButton -> {
+					if(this.enterKeyView.isLengthKeyInputEnougth()) {
+
+						CryptDecrypt.myKey = CryptDecrypt.createKey(this.enterKeyView.getKeyInput(), this.decryptView.getDecryptType());
+						this.secondaryStage.hide();
+						this.primaryStage.show();
+						
+						File fileTempo = null;
+						if(! this.decryptView.isOptionOverideChecked()) {
+							String nameOfFile = fileCrypted.getName();
+							String pathOfFile = fileCrypted.getAbsolutePath();
+		
+							fileTempo = new File(pathOfFile.substring(0, pathOfFile.lastIndexOf(".")) + "_decrypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
+						}
+						CryptDecrypt.decrypt(CryptDecrypt.myKey, this.decryptView.getDecryptType(), fileCrypted, this.decryptView.isOptionOverideChecked(), fileTempo);
+						
+						if(this.decryptView.isOptionOpenFileChecked()) {
+							this.openFile(fileTempo);
+						}
+					}
+				});
 			}
 		});
 	}
@@ -123,7 +143,7 @@ public class MainView {
 		File folder = new File(System.getProperty("user.home"),"Chiffre");
 		if(! folder.exists()) {
 			folder.mkdir();
-			
+
 		}
 	}
 
@@ -150,13 +170,13 @@ public class MainView {
 	public List<ExtensionFilter> getExtensionAccepted() {
 		List<ExtensionFilter> extensionAccepted = new ArrayList<ExtensionFilter> ();
 
-		extensionAccepted.add(new FileChooser.ExtensionFilter("JPG", "*.jpg"));
 		extensionAccepted.add(new FileChooser.ExtensionFilter("PNG", "*.png"));
+		extensionAccepted.add(new FileChooser.ExtensionFilter("JPG", "*.jpg"));
 		extensionAccepted.add(new FileChooser.ExtensionFilter("TXT", "*.txt"));
 
 		return extensionAccepted;
 	}
-	
+
 	public void openFile(File fileToOpen) {
 		if(fileToOpen != null) {
 			try {
