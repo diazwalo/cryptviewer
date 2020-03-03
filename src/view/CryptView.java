@@ -56,8 +56,11 @@ public class CryptView {
 	}
 
 	public String getTypeCrypt() {
-		System.out.println(this.cryptType.getPromptText());
-		return this.cryptType.getValue();
+		if(this.cryptType.getValue() == null) {
+			return this.cryptType.getItems().get(0);
+		}else {
+			return this.cryptType.getValue();
+		}
 	}
 	
 	public boolean isOptionOverideChecked() {

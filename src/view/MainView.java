@@ -71,6 +71,7 @@ public class MainView {
 			File fileDecrypted = this.getFileByOpenDialog(this.getExtensionAccepted());
 
 			if(fileDecrypted != null) {
+				this.primaryStage.hide();
 				int lengthKey = 8;
 				if(this.cryptView.getTypeCrypt().equals("AES")) {
 					lengthKey = 16;
@@ -81,17 +82,19 @@ public class MainView {
 				this.enterKeyView.getValidateButton().setOnAction(eButton -> {
 					CryptDecrypt.createKey(this.enterKeyView.getKeyInput(), this.cryptView.getTypeCrypt());
 					this.secondaryStage.hide();
-				});
-				
-				File fileTempo = null;
-				if(! this.cryptView.isOptionOverideChecked()) {
-					String nameOfFile = fileDecrypted.getName();
-					String pathOfFile = fileDecrypted.getAbsolutePath();
 					
-					//fileTempo = new File(pathOfFile.substring(0, pathOfFile.lastIndexOf(".")) + "_decrypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
-					fileTempo = new File(System.getProperty("user.home")+"/Chiffre/"+fileDecrypted.getName().substring(0, fileDecrypted.getName().lastIndexOf("."))+ "_crypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
-				}
-				CryptDecrypt.encrypt(CryptDecrypt.myKey, this.cryptView.getTypeCrypt(), fileDecrypted, this.cryptView.isOptionOverideChecked(), fileTempo);
+					System.out.println("attention jui deja la");
+					
+					File fileTempo = null;
+					if(! this.cryptView.isOptionOverideChecked()) {
+						String nameOfFile = fileDecrypted.getName();
+						String pathOfFile = fileDecrypted.getAbsolutePath();
+						
+						//fileTempo = new File(pathOfFile.substring(0, pathOfFile.lastIndexOf(".")) + "_decrypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
+						fileTempo = new File(System.getProperty("user.home")+"/Chiffre/"+fileDecrypted.getName().substring(0, fileDecrypted.getName().lastIndexOf("."))+ "_crypted" + nameOfFile.substring(nameOfFile.lastIndexOf(".")));
+					}
+					CryptDecrypt.encrypt(CryptDecrypt.myKey, this.cryptView.getTypeCrypt(), fileDecrypted, this.cryptView.isOptionOverideChecked(), fileTempo);
+				});
 			}
 		});
 		
