@@ -6,18 +6,23 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class FileView {
+public class EnterKeyView {
 	private Stage secondaryStage;
 	private Scene secondaryScene;
 	private VBox fileView;
 	private TextArea textArea;
-
-	public FileView() {
+	private TextField keyInput;
+	private Button validate;
+	
+	
+	public EnterKeyView() {
 
 	}
 
@@ -35,26 +40,12 @@ public class FileView {
 
 	public Scene createSceneSecondaryScene(File selFile) {
 		this.fileView = new VBox();
-		this.textArea = new TextArea();
-
-		BufferedReader in = null;
-		try {
-			in = new BufferedReader(new FileReader(selFile));
-			String str;
-			while ((str = in.readLine()) != null) {
-				System.out.println(str);
-				this.textArea.appendText(str);
-			}
-		} catch (IOException e) {
-		} finally {
-			try { 
-				in.close(); 
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-
-		this.fileView.getChildren().add(this.textArea);
+		
+		keyInput= new TextField();
+		validate = new Button("OK");
+		validate.setDisable(true);
+		
+		
 		return new Scene(this.fileView);
 	}
 
